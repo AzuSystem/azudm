@@ -1,2 +1,2 @@
-# azulogin-qt
- Linux Display Manager for AzuOS, but written in PyQT
+# AzuDM ( Azura Display Manager // AZDM )
+ Linux Display Manager for AzuOS

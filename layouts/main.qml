@@ -6,7 +6,7 @@ ApplicationWindow {
     visible: true
     width: 1280
     height: 720
-    title: "AzuLogin Display Manager AZDM"
+    title: "AzuDM Display Manager AZDM"
     font.family: "Inter"
 
     Image {

@@ -239,14 +239,31 @@ ApplicationWindow {
                                 status.item.authState = "Authenticating..."
                                 status.opacity = 1
                                 status.scale = 1.01
-                                result = backend.auth_user(username.text, password.text);
-                                if (result === true) {
-                                    status.item.svg = "wave";
-                                    status.item.authState = "Hello, " + username.text + "!";
-                                } else {
-                                    status.item.svg = "x";
-                                    status.item.authState = "Incorrect Username or Password!"
-                                }
+                                backend.auth_user(username.text, password.text);
+                            }
+                        }
+                    }
+
+                    Timer {
+                        id: errorHideTimer
+                        interval: 3000
+                        repeat: false
+                        onTriggered: {
+                            status.opacity = 0
+                        }
+                    }
+
+                    Connections {
+                        target: backend
+                        function onAuthFinished(success, error) {
+                            if (success) {
+                                errorHideTimer.stop()
+                                status.item.svg = "wave";
+                                status.item.authState = "Hello, " + username.text + "!";
+                            } else {
+                                status.item.svg = "x";
+                                status.item.authState = "Incorrect Username or Password!";
+                                errorHideTimer.start()
                             }
                         }
                     }

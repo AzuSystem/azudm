@@ -2,7 +2,7 @@ import sys
 import os
 import pam
 import subprocess
-from PyQt5.QtCore import QObject, pyqtSlot
+from PyQt5.QtCore import QObject, pyqtSlot, QThread, pyqtSignal
 from PyQt5.QtGui import QGuiApplication
 from PyQt5.QtQml import QQmlApplicationEngine
 
@@ -49,9 +49,28 @@ class Backend(QObject): # wth do I call this??
 	def select_session(self, name):
 		self.selected_session = name
 	
-	@pyqtSlot(str, str, result=bool)
+	authFinished = pyqtSignal(bool, str)
+
+	@pyqtSlot(str, str)
 	def auth_user(self, username, password):
-		return pam.authenticate(username, password)
+		self.worker = AuthWorker(username, password)
+		self.worker.result.connect(self.authFinished)
+		self.worker.start()
+
+class AuthWorker(QThread):
+	result = pyqtSignal(bool, str)
+
+	def __init__(self, username, password):
+		super().__init__()
+		self.username = username
+		self.password = password
+
+	def run(self):
+		try:
+			res = pam.authenticate(self.username, self.password)
+			self.result.emit(res, "")
+		except Exception as e:
+			self.result.emit(False, str(e))
 
 engine = QQmlApplicationEngine()
 engine.quit.connect(app.quit)

@@ -109,15 +109,31 @@ ApplicationWindow {
 
         Rectangle {
             width: 200
-            height: 100
+            // height: 100
+            height: childrenRect.height
+
             color: "#aa000000"
             y: 50 + 15
             x: parent.width - width - 15
             radius: 12
+            border.color: "#33ffffff"
+            border.width: 1
 
             Component.onCompleted: {
                 var sessions = backend.get_sessions(0)
-                console.log(sessions)
+                // console.log(sessions)
+            }
+
+            Row {
+                width: parent.width
+                // height: parent.height
+                height: childrenRect.height
+                // anchors.centerIn: parent
+
+                SessionOption {
+                    name: "Sessonn"
+                    exec: "cmd"
+                }
             }
         }
 
@@ -246,7 +262,7 @@ ApplicationWindow {
 
                     Timer {
                         id: errorHideTimer
-                        interval: 3000
+                        interval: 2000
                         repeat: false
                         onTriggered: {
                             status.opacity = 0

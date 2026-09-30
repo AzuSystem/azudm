@@ -1,0 +1,8 @@
+[package]
+name = "azudm"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+freya = "0.4.3"
+pam-client2 = "0.5.5"

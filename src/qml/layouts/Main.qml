@@ -1,7 +1,4 @@
 import QtQuick
-import QtQuick.Controls
-import QtQuick.Effects
-import Qt5Compat.GraphicalEffects
 import QtQuick.Window
     
 Window {
@@ -12,8 +9,6 @@ Window {
     height: screen.height
     title: "AzuDM"
     property date currentTime: new Date()
-    property bool isTablet: false
-    // property bool isEnterLoginState: false
 
     Timer {
         interval: 1000
@@ -32,7 +27,7 @@ Window {
         source: "../assets/fonts/Inter-Regular.ttf" 
     }
 
-    Wallpaper { blurOn: false }
+    Wallpaper { id: wallpaper }
 
     Item { 
         id: timedate
@@ -58,6 +53,11 @@ Window {
 
             duration: 500
             easing: Easing.InQuart
+
+            onFinished: {
+                wallpaper.inPromptState = true
+
+            }
         }
     }
 
@@ -77,8 +77,6 @@ Window {
             if ( timedate.y <= -100 ) {
                 timeExitAnim.to = -278
                 timeExitAnim.start()
-
-                // if
             } else {
                 timeReturnAnim.to = 0
                 timeReturnAnim.start()
@@ -87,4 +85,5 @@ Window {
         }
     }
 
+    Prompt {}
 }

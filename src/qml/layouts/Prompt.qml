@@ -41,7 +41,7 @@ ColumnLayout {
 			Image {
 				id: pfpImage
 				anchors.fill: parent
-				source: "../assets/ref1.png"
+				source: ""
 				visible: false
 			}
 
@@ -116,6 +116,7 @@ ColumnLayout {
 		Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
 
 		TextField {
+			id: password
 			width: 190
 			height: 30
 			color: "#ffffffff"
@@ -148,15 +149,32 @@ ColumnLayout {
 		Button {
 			width: 30
 			height: 30
+			scale: down ? 0.9 : 1
 			anchors.right: parent.right
 
+			Behavior on scale {
+				NumberAnimation {
+					easing: Easing.OutCirc
+					duration: 150
+				}
+			}
+
 			background: Rectangle {
-				color: "transparent"
+				radius: 15
+				color: parent.down ? "#10000000" : parent.hovered ? "#08ffffff" : "transparent"
 
 				Image {
 					source: "../assets/passwordConfirm.png"
 					anchors.fill: parent
 				}
+			}
+
+			onPressed: {
+				statusIcon = "loading"
+				statusText = "Authenticating..."
+				statusShow = true
+
+				backend.auth("hi", password.text)
 			}
 		}
 	}

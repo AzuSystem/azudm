@@ -11,6 +11,12 @@ Window {
     property date currentTime: new Date()
     property bool inPromptState: false
 
+    property string statusIcon: "wave"
+    property string statusText: "state"
+    property bool statusShow: false
+
+    Backend { id: backend }
+
     Timer {
         interval: 1000
         running: true
@@ -28,66 +34,74 @@ Window {
         source: "../assets/fonts/Inter-Regular.ttf" 
     }
 
-    Wallpaper { id: wallpaper }
+    Item {
+        anchors.fill: parent
+        id: content
 
-    Item { 
-        id: timedate
-        width: window.width
-        height: window.height
+        Wallpaper { id: wallpaper }
 
-        TimeDate {}
+        Item { 
+            id: timedate
+            width: window.width
+            height: window.height
 
-        SpringAnimation {
-            id: timeReturnAnim
-            target: timedate
-            property: "y"
+            TimeDate {}
 
-            spring: 3
-            damping: 0.25
-            duration: 150
-        }
+            SpringAnimation {
+                id: timeReturnAnim
+                target: timedate
+                property: "y"
 
-        NumberAnimation {
-            id: timeExitAnim
-            target: timedate
-            property: "y"
-
-            duration: 500
-            easing: Easing.InQuart
-
-            onStarted: {
-                timedateMenuDrag.enabled = false
+                spring: 3
+                damping: 0.25
+                duration: 150
             }
 
-            onFinished: {
-                inPromptState = true
+            NumberAnimation {
+                id: timeExitAnim
+                target: timedate
+                property: "y"
+
+                duration: 500
+                easing: Easing.InQuart
+
+                onStarted: {
+                    timedateMenuDrag.enabled = false
+                }
+
+                onFinished: {
+                    inPromptState = true
+                }
             }
         }
+
+        DragHandler {
+            id: timedateMenuDrag
+            target: timedate
+            xAxis.enabled: false
+            yAxis.maximum: 0
+
+            // onActiveTranslationChanged: {
+            //     timedate.y = activeTranslation.y
+            // }
+
+            onActiveChanged: {
+                console.log(timedate.y) // -278
+
+                if ( timedate.y <= -100 ) {
+                    timeExitAnim.to = -278
+                    timeExitAnim.start()
+                } else {
+                    timeReturnAnim.to = 0
+                    timeReturnAnim.start()
+                }
+                
+            }
+        }
+
+        Prompt {}
     }
 
-    DragHandler {
-        id: timedateMenuDrag
-        target: timedate
-        xAxis.enabled: false
-        yAxis.maximum: 0
+    Status {}
 
-        // onActiveTranslationChanged: {
-        //     timedate.y = activeTranslation.y
-        // }
-
-        onActiveChanged: {
-            console.log(timedate.y) // -278
-
-            if ( timedate.y <= -100 ) {
-                timeExitAnim.to = -278
-                timeExitAnim.start()
-            } else {
-                timeReturnAnim.to = 0
-                timeReturnAnim.start()
-            }
-            
-        }
-    }
-
-    Prompt {}
 }

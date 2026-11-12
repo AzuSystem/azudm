@@ -7,5 +7,6 @@
         <file>layouts/Prompt.qml</file>
         <file>layouts/Status.qml</file>
         <file>layouts/Backend.qml</file>
+        <file>layouts/DesktopChooser.qml</file>
     </qresource>
 </RCC>

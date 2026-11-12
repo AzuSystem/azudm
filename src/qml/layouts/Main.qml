@@ -100,6 +100,8 @@ Window {
         }
 
         Prompt {}
+
+        DesktopChooser {}
     }
 
     Status {}

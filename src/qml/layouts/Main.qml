@@ -4,11 +4,12 @@ import QtQuick.Window
 Window {
     id: window
     visible: true
-    // visibility: Window.FullScreen
+    visibility: Window.FullScreen
     width: screen.width
     height: screen.height
     title: "AzuDM"
     property date currentTime: new Date()
+    property bool inPromptState: false
 
     Timer {
         interval: 1000
@@ -54,9 +55,12 @@ Window {
             duration: 500
             easing: Easing.InQuart
 
-            onFinished: {
-                wallpaper.inPromptState = true
+            onStarted: {
+                timedateMenuDrag.enabled = false
+            }
 
+            onFinished: {
+                inPromptState = true
             }
         }
     }

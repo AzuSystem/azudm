@@ -3,7 +3,6 @@ import QtQuick.Effects
 import Qt5Compat.GraphicalEffects
 
 Item {
-	property bool inPromptState: false
 	anchors.fill: parent
 
 	Image {

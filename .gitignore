@@ -1,4 +1,5 @@
 venv
+.qmlls.ini
 
 # Added by cargo
 

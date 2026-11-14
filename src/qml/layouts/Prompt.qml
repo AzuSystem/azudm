@@ -132,7 +132,7 @@ ColumnLayout {
 				color: "transparent"
 				// radius: 95
 				// border.color: "#26ffffff"
-				// border.width: 1
+				// border.width: 2
 
 				// gradient: Gradient {
 				//     GradientStop { position: 0.00; color: "#4D000000" }

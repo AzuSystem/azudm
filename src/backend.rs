@@ -47,7 +47,7 @@ struct DisplayManager {
     exec: String,
 }
 
-const SESSION_DIRS: [&str; 2] = ["/usr/share/xsessions", "/usr/share/waylandsessions"];
+const SESSION_DIRS: [&str; 2] = ["/usr/share/xsessions", "/usr/share/wayland-sessions"];
 
 impl qobject::DisplayManager {
     pub fn fetch_sessions(&self) -> QString {
@@ -59,10 +59,11 @@ impl qobject::DisplayManager {
                 if entry.path().extension().is_some_and(|ext|ext == "desktop") {
                     let file = DesktopEntry::from_path(entry.path(), None::<&[&str]>).unwrap();
                     let file_name = file.name(&["en"]).unwrap_or_default().to_string();
+                    let file_exec = file.exec().unwrap_or_default().to_string();
 
                     let sessionEntry = DisplayManager {
                         name: file_name,
-                        exec: entry.path().to_string_lossy().to_string(),
+                        exec: file_exec,
                     };
 
                     entries.push(sessionEntry);

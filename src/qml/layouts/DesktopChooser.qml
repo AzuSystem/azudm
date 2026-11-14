@@ -24,8 +24,8 @@ Item {
 	}
 
 	property bool isDropdownOpen: false
-	property string sessionName: "viim arcaea"
-	property int sessionCount: 3
+	property string sessionName: sessionJSON[0].name
+	property int sessionCount: sessionJSON.length;
 
 	Button {
 		width: 190
@@ -119,12 +119,6 @@ Item {
 		    GradientStop { position: 1.00; color: "#33000000" }
 		}
 
-		ListModel {
-			id: sessions
-			ListElement { name: "Desktop1" }
-			ListElement { name: "Desktop2" }
-			ListElement { name: "Desktop3" }
-		}
 		Item {
 			width: parent.width - 15
 			height: parent.height - 15
@@ -132,7 +126,7 @@ Item {
 
 			ListView {
 				anchors.fill: parent
-				model: sessions
+				model: sessionJSON
 
 				delegate: Button {
 					width: parent.width
@@ -141,7 +135,7 @@ Item {
 
 
 					onPressed: {
-						sessionName = model.name
+						sessionName = modelData.name
 						isDropdownOpen = false
 					}
 
@@ -150,7 +144,7 @@ Item {
 						radius: 5
 
 						Text {
-							text: model.name
+							text: modelData.name
 							color: "white"
 							font.pixelSize: 11
 							x: 6

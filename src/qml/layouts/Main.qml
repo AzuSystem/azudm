@@ -1,10 +1,11 @@
 import QtQuick
 import QtQuick.Window
+import com.azusystem.azura
     
 Window {
     id: window
     visible: true
-    visibility: Window.FullScreen
+    // visibility: Window.FullScreen
     width: screen.width
     height: screen.height
     title: "AzuDM"
@@ -15,7 +16,11 @@ Window {
     property string statusText: "state"
     property bool statusShow: false
 
-    Backend { id: backend }
+    property var sessionJSON: JSON.parse(backend.fetchSessions())
+
+
+    DisplayManager { id: backend }
+    // Backend { id: backend }
 
     Timer {
         interval: 1000
@@ -105,5 +110,14 @@ Window {
     }
 
     Status {}
+
+    // Component.onCompleted: {
+    //     sessionJSON = JSON.parse(backend.fetchSessions())
+
+    //     console.log("Count:", sessionJSON.length)
+    //     console.log("First entry:", JSON.stringify(sessionJSON[0]))
+    //     console.log("Name:", sessionJSON[0].name)
+    //     console.log("Exec:", sessionJSON[0].exec)
+    // }
 
 }
